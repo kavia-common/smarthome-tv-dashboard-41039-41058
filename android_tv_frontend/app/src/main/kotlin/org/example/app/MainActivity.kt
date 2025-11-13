@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.padding
 import androidx.navigation.compose.rememberNavController
 import org.example.app.navigation.AppNavHost
 import org.example.app.navigation.Routes
@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
+                    // Apply innerPadding from Scaffold to the NavHost container using Modifier.padding
                     Scaffold { innerPadding ->
                         Surface(modifier = Modifier.padding(innerPadding)) {
                             AppNavHost(
