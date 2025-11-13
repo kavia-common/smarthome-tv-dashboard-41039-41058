@@ -3,6 +3,7 @@ package org.example.app.navigation
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -29,32 +30,27 @@ object TVFocus {
 /**
  * PUBLIC_INTERFACE
  * dpadFocusable applies focusable behavior, a subtle focus visual using scale and padding,
- * and sets up DPAD key handlers using androidx.compose.ui.input.key Keys without nativeKeyCode logic.
- *
- * This modifier:
- * - makes the element focusable for TV DPAD navigation
- * - adds onFocusChanged to slightly scale and pad when focused (visual feedback)
- * - adds onKeyEvent handling that recognizes DPAD keys (arrows and enter) but returns false
- *   to let default focus/navigation behavior proceed unless customized later
+ * and sets up DPAD key handlers using androidx.compose.ui.input.key APIs.
  *
  * PUBLIC_INTERFACE
+ * Top-level extension: apply to a Modifier chain only.
  */
 fun Modifier.dpadFocusable(): Modifier {
-    // Track focus to adjust visuals; stored in a local var and applied via graphicsLayer.
-    var isFocused = false
+    // Use a state container to avoid local var mutation across recompositions.
+    val focusedState = mutableStateOf(false)
     return this
         .focusable()
         .onFocusChanged { state ->
-            isFocused = state.isFocused
+            focusedState.value = state.isFocused
         }
         .graphicsLayer {
-            val scale = if (isFocused) 1.04f else 1.0f
+            val scale = if (focusedState.value) 1.04f else 1.0f
             scaleX = scale
             scaleY = scale
-            shadowElevation = if (isFocused) 16f else 0f
+            shadowElevation = if (focusedState.value) 16f else 0f
             clip = false
         }
-        .then(if (isFocused) Modifier.padding(2.dp) else Modifier.padding(0.dp))
+        .then(if (focusedState.value) Modifier.padding(2.dp) else Modifier.padding(0.dp))
         .onKeyEvent { _: KeyEvent ->
             // Let default focus/navigation behavior proceed; we do not intercept keys here
             false

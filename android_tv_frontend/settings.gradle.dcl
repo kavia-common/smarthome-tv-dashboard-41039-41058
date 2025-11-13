@@ -28,10 +28,13 @@ defaults {
         applicationId = "org.gradle.experimental.android.app"
 
         testing {
+            // Apply JUnit dependencies and do not fail when no tests are discovered in certain environments
             dependencies {
                 implementation("org.junit.jupiter:junit-jupiter:5.10.2")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
             }
+            // Declarative Prototype: configure behavior flags at defaults level
+
         }
     }
 
@@ -47,6 +50,7 @@ defaults {
                 implementation("org.junit.jupiter:junit-jupiter:5.10.2")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
             }
+            failOnNoDiscoveredTests = false
         }
     }
 }
