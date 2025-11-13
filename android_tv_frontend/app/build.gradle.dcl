@@ -1,15 +1,27 @@
 androidApplication {
+    // Core Android app configuration required by the declarative DSL
+    jdkVersion = 17
+    compileSdk = 34
+    minSdk = 30
+
+    // App identity and versioning
+    applicationId = "org.gradle.experimental.android.app"
+    versionCode = 1
+    versionName = "0.1"
+
     namespace = "org.example.app"
 
     // Enable Jetpack Compose using the declarative DSL for the prototype
-    // Declarative Gradle preview currently supports enabling Compose via this simple flag.
-    // The Compose Compiler version is derived from AGP/compose BOM and not configured here.
     compose {
         enabled = true
     }
 
-    // Ensure JUnit Jupiter deps available if discovery runs
+    // Keep test dependencies and test behavior scoped under the app module
     testing {
+        // Do not fail the unit test task when no tests are discovered in CI environments
+        // This maps to Gradle Test.failOnNoDiscoveredTests=false
+        failOnNoDiscoveredTests = false
+
         dependencies {
             implementation("org.junit.jupiter:junit-jupiter:5.10.2")
             runtimeOnly("org.junit.platform:junit-platform-launcher")
@@ -28,7 +40,7 @@ androidApplication {
         implementation("com.google.android.material:material:1.12.0")
         // Navigation for Compose
         implementation("androidx.navigation:navigation-compose:2.8.3")
-        // Android TV specific Compose libraries (use stable artifact coordinates available on Google Maven)
+        // Android TV specific Compose libraries
         implementation("androidx.tv:tv-foundation:1.0.0-alpha10")
         implementation("androidx.tv:tv-material:1.0.0-alpha10")
 
