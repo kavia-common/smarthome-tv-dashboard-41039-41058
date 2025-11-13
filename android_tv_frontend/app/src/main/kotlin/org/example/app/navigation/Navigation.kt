@@ -26,6 +26,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -45,30 +50,31 @@ object TVFocus {
      */
     @Composable
     fun rememberFirstItemFocusRequester(): FocusRequester = remember { FocusRequester() }
-
-    /**
-     * PUBLIC_INTERFACE
-     * Apply DPAD-friendly behavior to a focusable component via modifiers.
-     * Adds onKeyEvent hook for future DPAD handling logic.
-     */
-    fun Modifier.dpadFocusable(): Modifier = this
-        .focusable()
-        .onKeyEvent { keyEvent ->
-            // Hook for DPAD handling; return false to allow default focus navigation.
-            when (keyEvent.nativeKeyEvent.keyCode) {
-                Key.DirectionUp.nativeKeyCode,
-                Key.DirectionDown.nativeKeyCode,
-                Key.DirectionLeft.nativeKeyCode,
-                Key.DirectionRight.nativeKeyCode,
-                Key.Enter.nativeKeyCode,
-                Key.NumPadEnter.nativeKeyCode -> {
-                    // Could intercept specific keys if needed
-                    false
-                }
-                else -> false
-            }
-        }
 }
+
+/**
+ * PUBLIC_INTERFACE
+ * Apply DPAD-friendly behavior to a focusable component via modifiers.
+ * Adds onKeyEvent hook for future DPAD handling logic.
+ */
+fun Modifier.dpadFocusable(): Modifier = this
+    .focusable()
+    .onKeyEvent { keyEvent: KeyEvent ->
+        // Hook for DPAD handling; return false to allow default focus navigation.
+        if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
+        when (keyEvent.key) {
+            Key.DirectionUp,
+            Key.DirectionDown,
+            Key.DirectionLeft,
+            Key.DirectionRight,
+            Key.Enter,
+            Key.NumPadEnter -> {
+                // Could intercept specific keys if needed; return false to allow default focus movement.
+                false
+            }
+            else -> false
+        }
+    }
 
 /**
  * PUBLIC_INTERFACE
@@ -170,14 +176,14 @@ fun HomeScreen(
                     Button(
                         modifier = Modifier
                             .focusRequester(firstFocus)
-                            .then(TVFocus.dpadFocusable()),
+                            .then(Modifier.dpadFocusable()),
                         onClick = { onOpenDevice("device-001") }
                     ) {
                         Text("Open Device Detail (device-001)")
                     }
                     Spacer(Modifier.height(12.dp))
                     Button(
-                        modifier = TVFocus.dpadFocusable(),
+                        modifier = Modifier.dpadFocusable(),
                         onClick = { onOpenCamera("cam-42") }
                     ) {
                         Text("Open Camera (cam-42)")
