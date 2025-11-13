@@ -28,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import org.example.app.ui.theme.SmartHomeTVTheme
+import org.example.app.navigation.dpadFocusable
 
 /**
  * PUBLIC_INTERFACE

@@ -8,12 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.unit.dp
 
 /**
@@ -40,11 +36,11 @@ object TVFocus {
  * - adds onFocusChanged to slightly scale and pad when focused (visual feedback)
  * - adds onKeyEvent handling that recognizes DPAD keys (arrows and enter) but returns false
  *   to let default focus/navigation behavior proceed unless customized later
+ *
+ * PUBLIC_INTERFACE
  */
 fun Modifier.dpadFocusable(): Modifier {
-    // Local state-less visuals driven by focus change via graphicsLayer values.
-    // We compute and apply visuals directly from the onFocusChanged callback by
-    // adjusting layer scale and using padding when focused.
+    // Track focus to adjust visuals; stored in a local var and applied via graphicsLayer.
     var isFocused = false
     return this
         .focusable()
@@ -52,7 +48,6 @@ fun Modifier.dpadFocusable(): Modifier {
             isFocused = state.isFocused
         }
         .graphicsLayer {
-            // Slight scale up when focused for a TV-like affordance
             val scale = if (isFocused) 1.04f else 1.0f
             scaleX = scale
             scaleY = scale
@@ -60,21 +55,8 @@ fun Modifier.dpadFocusable(): Modifier {
             clip = false
         }
         .then(if (isFocused) Modifier.padding(2.dp) else Modifier.padding(0.dp))
-        .onKeyEvent { event: KeyEvent ->
-            // Keep default behavior; acknowledge only on key down if we plan to handle explicitly
-            if (event.type != KeyEventType.KeyDown) return@onKeyEvent false
-            when (event.key) {
-                Key.DirectionUp,
-                Key.DirectionDown,
-                Key.DirectionLeft,
-                Key.DirectionRight,
-                Key.Enter,
-                Key.NumPadEnter -> {
-                    // By default, do not consume so that focus/navigation proceeds normally.
-                    // If in future we need to intercept a key, return true here.
-                    false
-                }
-                else -> false
-            }
+        .onKeyEvent { _: KeyEvent ->
+            // Let default focus/navigation behavior proceed; we do not intercept keys here
+            false
         }
 }
