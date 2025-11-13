@@ -1,0 +1,4 @@
+{
+    "command": "./gradlew dependencies",
+    "working_directory": "/home/kavia/workspace/code-generation/smarthome-tv-dashboard-41039-41058/android_tv_frontend"
+}
