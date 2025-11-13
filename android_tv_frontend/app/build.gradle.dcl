@@ -1,6 +1,12 @@
 androidApplication {
     namespace = "org.example.app"
 
+    // Enable Jetpack Compose using the declarative DSL for the prototype
+    compose {
+        enabled = true
+        compilerExtensionVersion = "1.5.15"
+    }
+
     dependencies {
         // Compose BOM to align versions
         implementation(platform("androidx.compose:compose-bom:2024.10.01"))

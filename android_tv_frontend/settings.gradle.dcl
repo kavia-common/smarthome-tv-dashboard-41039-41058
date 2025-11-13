@@ -21,13 +21,7 @@ defaults {
         compileSdk = 34
         minSdk = 30
 
-        // Enable Jetpack Compose globally for application modules
-        buildFeatures {
-            compose = true
-        }
-        composeOptions {
-            kotlinCompilerExtensionVersion = "1.5.15"
-        }
+        // Moved Compose configuration into the module build files to avoid DSL resolution errors.
 
         versionCode = 1
         versionName = "0.1"
@@ -46,13 +40,7 @@ defaults {
         compileSdk = 34
         minSdk = 30
 
-        // Enable Compose in libraries as well if needed later
-        buildFeatures {
-            compose = true
-        }
-        composeOptions {
-            kotlinCompilerExtensionVersion = "1.5.15"
-        }
+        // Moved Compose configuration into module files if/when needed.
 
         testing {
             dependencies {
