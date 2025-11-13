@@ -33,7 +33,8 @@ object TVFocus {
  * and sets up DPAD key handlers using androidx.compose.ui.input.key APIs.
  *
  * PUBLIC_INTERFACE
- * Top-level extension: apply to a Modifier chain only.
+ * This is the single public top-level Modifier extension that should be imported and used
+ * by callers: apply as `Modifier.dpadFocusable()`.
  */
 fun Modifier.dpadFocusable(): Modifier {
     // Use a state container to avoid local var mutation across recompositions.

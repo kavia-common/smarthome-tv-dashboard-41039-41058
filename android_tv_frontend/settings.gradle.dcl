@@ -50,7 +50,7 @@ defaults {
                 implementation("org.junit.jupiter:junit-jupiter:5.10.2")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
             }
-            failOnNoDiscoveredTests = false
+            // Removed failOnNoDiscoveredTests as it is not supported in this Declarative DSL version.
         }
     }
 }

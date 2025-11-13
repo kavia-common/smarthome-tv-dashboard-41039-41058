@@ -8,6 +8,14 @@ androidApplication {
         enabled = true
     }
 
+    // Ensure JUnit Jupiter deps available if discovery runs
+    testing {
+        dependencies {
+            implementation("org.junit.jupiter:junit-jupiter:5.10.2")
+            runtimeOnly("org.junit.platform:junit-platform-launcher")
+        }
+    }
+
     dependencies {
         // Compose BOM to align versions
         implementation(platform("androidx.compose:compose-bom:2024.06.00"))

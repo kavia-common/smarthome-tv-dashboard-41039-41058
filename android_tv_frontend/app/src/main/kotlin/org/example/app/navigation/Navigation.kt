@@ -28,7 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import org.example.app.ui.theme.SmartHomeTVTheme
-// Import the top-level extension from Focus.kt
+// Import the single public top-level extension from Focus.kt
 import org.example.app.navigation.dpadFocusable
 
 /**
@@ -131,7 +131,7 @@ fun HomeScreen(
                     Button(
                         modifier = Modifier
                             .focusRequester(firstFocus)
-                            .then(Modifier.dpadFocusable()),
+                            .dpadFocusable(),
                         onClick = { onOpenDevice("device-001") }
                     ) {
                         Text("Open Device Detail (device-001)")
@@ -188,7 +188,7 @@ fun DeviceDetailScreen(
                     Button(
                         modifier = Modifier
                             .focusRequester(firstFocus)
-                            .then(Modifier.dpadFocusable()),
+                            .dpadFocusable(),
                         onClick = onBack
                     ) {
                         Text("Back")
