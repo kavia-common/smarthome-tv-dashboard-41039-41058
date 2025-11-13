@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Neon Futuristic Palette -->
+    <color name="colorPrimary">#3b82f6</color>
+    <color name="colorPrimaryDark">#2c6bd1</color>
+    <color name="colorSecondary">#64748b</color>
+    <color name="colorTertiary">#06b6d4</color>
+    <color name="colorSuccess">#06b6d4</color>
+    <color name="colorError">#EF4444</color> <!-- hsl(0 84% 60%) ~ #ef4444 -->
+    <color name="colorBackground">#0B0F14</color>
+    <color name="colorSurface">#0E141B</color>
+    <color name="onPrimary">#0A1220</color>
+    <color name="onBackground">#E5E7EB</color>
+</resources>
