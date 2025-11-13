@@ -33,11 +33,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    Scaffold { _ ->
-                        AppNavHost(
-                            navController = navController,
-                            startDestination = Routes.HOME
-                        )
+                    Scaffold { innerPadding ->
+                        Surface(modifier = Modifier.padding(innerPadding)) {
+                            AppNavHost(
+                                navController = navController,
+                                startDestination = Routes.HOME
+                            )
+                        }
                     }
                 }
             }

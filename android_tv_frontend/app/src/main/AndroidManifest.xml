@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Mark touchscreen as optional for TV devices -->
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
     <!-- Optional: declare Leanback feature (not required to install on non-TV devices) -->
     <uses-feature
         android:name="android.software.leanback"

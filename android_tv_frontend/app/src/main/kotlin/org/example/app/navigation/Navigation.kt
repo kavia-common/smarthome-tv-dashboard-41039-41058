@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,62 +18,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import org.example.app.ui.theme.SmartHomeTVTheme
-
-/**
- * Helpers for DPAD focus and key handling on TV.
- */
-object TVFocus {
-    /**
-     * PUBLIC_INTERFACE
-     * Creates a FocusRequester and returns it for applying to the first focusable composable.
-     */
-    @Composable
-    fun rememberFirstItemFocusRequester(): FocusRequester = remember { FocusRequester() }
-}
-
-/**
- * PUBLIC_INTERFACE
- * Apply DPAD-friendly behavior to a focusable component via modifiers.
- * Adds onKeyEvent hook for future DPAD handling logic.
- */
-fun Modifier.dpadFocusable(): Modifier = this
-    .focusable()
-    .onKeyEvent { keyEvent: KeyEvent ->
-        // Hook for DPAD handling; return false to allow default focus navigation.
-        if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
-        when (keyEvent.key) {
-            Key.DirectionUp,
-            Key.DirectionDown,
-            Key.DirectionLeft,
-            Key.DirectionRight,
-            Key.Enter,
-            Key.NumPadEnter -> {
-                // Could intercept specific keys if needed; return false to allow default focus movement.
-                false
-            }
-            else -> false
-        }
-    }
 
 /**
  * PUBLIC_INTERFACE
@@ -233,7 +186,7 @@ fun DeviceDetailScreen(
                     Button(
                         modifier = Modifier
                             .focusRequester(firstFocus)
-                            .then(TVFocus.dpadFocusable()),
+                            .then(Modifier.dpadFocusable()),
                         onClick = onBack
                     ) {
                         Text("Back")
@@ -283,7 +236,7 @@ fun CameraScreen(
                     Button(
                         modifier = Modifier
                             .focusRequester(firstFocus)
-                            .then(TVFocus.dpadFocusable()),
+                            .then(Modifier.dpadFocusable()),
                         onClick = onBack
                     ) {
                         Text("Back")
